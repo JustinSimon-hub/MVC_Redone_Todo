@@ -1,0 +1,25 @@
+@model IEnumerable<Testing.Models.ToDo>
+
+<h1>Todo List</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Date</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Todo/Create">Create New Todo</a>
