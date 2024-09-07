@@ -4,11 +4,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Testing.Data;
+using Testing;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+ // Adds Identity services
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -29,7 +35,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseAuthentication(); // Add this line for authentication
+
 app.UseAuthorization();
+
+
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
